@@ -6,7 +6,7 @@ urlcolor: blue
 colortheme: "beaver"
 date: "Feb 25, 2021"
 theme: "Heverlee"
-aspectratio: 169
+aspectratio: 43 
 lang: en-US
 marp: true
 ---
@@ -39,7 +39,8 @@ marp: true
 For example,  we have a syscall `getrandom`:
 
 ```c
-ssize_t getrandom (void *__buffer, size_t __length, unsigned int __flags)
+ssize_t getrandom (void *__buffer, size_t __length,
+				   unsigned int __flags)
 ```
 
 And there is the schema of syscall in Arm64:
@@ -62,7 +63,7 @@ The capturing snippet show as follow: *but `regs[0]` was replaced by `ret`*
 
 ```bash
 [my_sysdig:] syscall 0x116, with pid=0x178e, name=a.out
-[my_sysdig:] exit syscall, regs[0]=0x4, with pid=0x178e, ret=0x4
+[my_sysdig:] exit syscall, regs[0]=0x4, with pid=0x178e
 ```
 
 There are 26 syscalls (arm64) similar to `getrandom`, and we need to save their `regs[0]` when entering the syscall. 
@@ -76,3 +77,11 @@ There are 26 syscalls (arm64) similar to `getrandom`, and we need to save their 
 	- Considering multithread: When the program is waiting for a syscall (such as `read`), other threads can still run normally or call syscalls.
 - Maintain a data struct to save `regs[0]` 
 	- Syscall will block the thread, so we could save a value for each thread number.
+
+---
+
+## Plan
+
+- Improve the syscall capturing, support record for the parameter change
+- Further discuss with Yiming how to handle library calls
+- Read a paper for sharing next week...
