@@ -70,7 +70,7 @@ There are 26 syscalls (arm64) similar to `getrandom`, and we need to save their 
 
 ---
 
-## Solution: 
+## How to Save Parameters
 
 - Set a global variable at `entering` and get its value at `exit`? 
 	- No, multiple system calls can exist *at the same time* 
